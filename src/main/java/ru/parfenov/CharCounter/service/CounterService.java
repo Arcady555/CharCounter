@@ -7,6 +7,7 @@ import java.util.*;
 @Service
 public class CounterService {
     public String getCount(String str) {
+
         Map<Character, Integer> charMap = convertStringToMap(str);
 
         LinkedHashMap<Character, Integer> charLinkedMap = sortMap(charMap);
@@ -47,12 +48,17 @@ public class CounterService {
     }
 
     private String convertMapToString(Map<Character, Integer> map) {
+        String rsl = "Передана пустая строка!";
         StringBuilder stringBuilder = new StringBuilder();
 
         for (char element : map.keySet()) {
             stringBuilder.append("\"").append(element).append("\": ").append(map.get(element)).append(", ");
         }
 
-        return stringBuilder.deleteCharAt(stringBuilder.length() - 2).toString();
+        if (stringBuilder.length() != 0) {
+            rsl = stringBuilder.deleteCharAt(stringBuilder.length() - 2).toString();
+        }
+
+        return rsl;
     }
 }
