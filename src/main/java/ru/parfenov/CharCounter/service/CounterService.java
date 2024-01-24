@@ -7,11 +7,8 @@ import java.util.*;
 @Service
 public class CounterService {
     public String getCount(String str) {
-
         Map<Character, Integer> charMap = convertStringToMap(str);
-
         LinkedHashMap<Character, Integer> charLinkedMap = sortMap(charMap);
-
         return convertMapToString(charLinkedMap);
     }
 
@@ -19,9 +16,8 @@ public class CounterService {
         char[] charArray = str.toCharArray();
         Set<Character> charSet = new HashSet<>();
         Map<Character, Integer> charMap = new HashMap<>();
-
         for (char element : charArray) {
-            if (element == ' ' || element == '\n') {
+            if (element == ' ' || element == '\n' || element == '"') {
                 continue;
             } else {
                 if (charSet.add(element)) {
@@ -38,27 +34,22 @@ public class CounterService {
     private LinkedHashMap<Character, Integer> sortMap(Map<Character, Integer> map) {
         List<Map.Entry<Character, Integer>> list = new ArrayList<>(map.entrySet());
         list.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
-
         LinkedHashMap<Character, Integer> charLinkedMap = new LinkedHashMap<>();
         for (Map.Entry<Character, Integer> entry : list) {
             charLinkedMap.put(entry.getKey(), entry.getValue());
         }
-
         return charLinkedMap;
     }
 
     private String convertMapToString(Map<Character, Integer> map) {
         String rsl = "Передана пустая строка!";
         StringBuilder stringBuilder = new StringBuilder();
-
         for (char element : map.keySet()) {
             stringBuilder.append("\"").append(element).append("\": ").append(map.get(element)).append(", ");
         }
-
         if (stringBuilder.length() != 0) {
-            rsl = stringBuilder.deleteCharAt(stringBuilder.length() - 2).toString();
+            rsl = stringBuilder.deleteCharAt(stringBuilder.length() - 2).toString().trim();
         }
-
         return rsl;
     }
 }
