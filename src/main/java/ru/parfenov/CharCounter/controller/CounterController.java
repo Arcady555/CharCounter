@@ -1,7 +1,6 @@
 package ru.parfenov.CharCounter.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,8 +15,6 @@ import ru.parfenov.CharCounter.service.CounterService;
 import java.io.IOException;
 import java.util.HashMap;
 
-//import static javax.swing.UIManager.put;
-
 @RestController
 @AllArgsConstructor
 public class CounterController {
@@ -29,14 +26,16 @@ public class CounterController {
         return new ResponseEntity<>(this.service.getCount(str), HttpStatus.CREATED);
     }
 
-    @ExceptionHandler(value = { HttpMessageNotReadableException.class })
+    @ExceptionHandler(value = {HttpMessageNotReadableException.class})
     public void exceptionHandler(Exception e, HttpServletResponse response)
             throws IOException {
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setContentType("application/json");
-        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() { {
-            put("message", "Request body is missing!!!");
-            put("type", e.getClass());
-        }}));
+        response.getWriter().write(objectMapper.writeValueAsString(new HashMap<>() {
+            {
+                put("message", "Request body is missing!!!");
+                put("type", e.getClass());
+            }
+        }));
     }
 }

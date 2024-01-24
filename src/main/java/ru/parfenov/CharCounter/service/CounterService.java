@@ -15,9 +15,9 @@ public class CounterService {
     private Map<Character, Integer> convertStringToMap(String str) {
         char[] charArray = str.toCharArray();
         Set<Character> charSet = new HashSet<>();
-        Map<Character, Integer> charMap = new HashMap<>();
+        Map<Character, Integer> charMap = new TreeMap<>();
         for (char element : charArray) {
-            if (element == ' ' || element == '\n' || element == '"') {
+            if (element == ' ' || element == '\n' || element == '\"' || element == '\'') {
                 continue;
             } else {
                 if (charSet.add(element)) {

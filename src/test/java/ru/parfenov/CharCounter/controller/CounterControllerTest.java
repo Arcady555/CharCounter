@@ -13,7 +13,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import ru.parfenov.CharCounter.CharCounterApplication;
 import ru.parfenov.CharCounter.service.CounterService;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -32,27 +31,21 @@ class CounterControllerTest {
 
     @Test
     void whenInputLineAndTakeOk() throws Exception {
-
-        when(service.getCount("qwertyqwe")).thenReturn(
-                "\"q\": 2, \"e\": 2, \"w\": 2, \"r\": 1, \"t\": 1, \"y\": 1"
-        );
         MockHttpServletRequestBuilder mockRequest = post("/input")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.TEXT_PLAIN)
                 .content(this.mapper.writeValueAsString("qwertyqwe"));
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
-                .andExpect(content().string("\"q\": 2, \"e\": 2, \"w\": 2, \"r\": 1, \"t\": 1, \"y\": 1"));
+                .andExpect(content().string("\"e\": 2, \"q\": 2, \"w\": 2, \"r\": 1, \"t\": 1, \"y\": 1"));
     }
 
     @Test
     void whenInputEmptyAndTakeOk() throws Exception {
-
-        when(service.getCount("")).thenReturn(" ");
         MockHttpServletRequestBuilder mockRequest = post("/input")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.TEXT_PLAIN)
-                .content(this.mapper.writeValueAsString(""));
+                .content(this.mapper.writeValueAsString(" "));
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
                 .andExpect(content().string("An empty string was passed!"));
