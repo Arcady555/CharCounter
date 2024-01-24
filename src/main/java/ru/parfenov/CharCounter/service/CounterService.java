@@ -42,7 +42,7 @@ public class CounterService {
     }
 
     private String convertMapToString(Map<Character, Integer> map) {
-        String rsl = "Передана пустая строка!";
+        String rsl = "An empty string was passed!";
         StringBuilder stringBuilder = new StringBuilder();
         for (char element : map.keySet()) {
             stringBuilder.append("\"").append(element).append("\": ").append(map.get(element)).append(", ");
